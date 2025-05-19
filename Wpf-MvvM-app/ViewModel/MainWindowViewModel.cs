@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Text.Json;
+using System.Windows;
 using Wpf_MvvM_app.Model;
 using Wpf_MvvM_app.MVVM;
 
@@ -56,7 +59,22 @@ namespace Wpf_MvvM_app.ViewModel
 
         private void Save()
         {
+            try
+            {
+                // Serializza la lista Items in JSON
+                var json = JsonSerializer.Serialize(Items);
 
+                // Scrivi il JSON in un file, per esempio nella cartella dell'app
+                File.WriteAllText("items.json", json);
+
+                // Eventualmente notifica l'utente o aggiorna lo stato
+                MessageBox.Show("Dati salvati con successo!");
+            }
+            catch (Exception ex)
+            {
+                // Gestisci eccezioni, ad esempio notificando l'utente
+                 MessageBox.Show($"Errore nel salvataggio: {ex.Message}");
+            }
         }
 
         private bool CanSave() 
